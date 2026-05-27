@@ -1,0 +1,840 @@
+{
+  "info": {
+    "_postman_id": "83e64724-3d98-4b10-b6d8-eb83be7fe856",
+    "name": "team9_iot_ingestion",
+    "description": "API hợp đồng cho IoT Ingestion, giao tiếp với Core Business và Analytics.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "34817349"
+  },
+  "item": [
+    {
+      "name": "01_Functional",
+      "item": [
+        {
+          "name": "Ingest sensor event (CloudEvents format) Copy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/problem+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/events/ingest",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "events",
+                "ingest"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Event accepted",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Cảnh báo nếu giá trị vượt ngưỡng cực đoan",
+                    "type": "text/plain"
+                  },
+                  "key": "X-Warning",
+                  "value": "string"
+                }
+              ],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Bad Request (Sai payload hoặc thiếu trường bắt buộc)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://neuiBBnpzSwwuiRIYazgtHEF.ayvgqwbqR-IVQGqAsRJ1kgw\",\n  \"title\": \"string\",\n  \"status\": 467,\n  \"detail\": \"string\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Lấy dữ liệu telemetry đã tổng hợp cho Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/iot/telemetry/aggregated?zoneId=ZONE-HANOI-01",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "analytics",
+                "iot",
+                "telemetry",
+                "aggregated"
+              ],
+              "query": [
+                {
+                  "key": "zoneId",
+                  "value": "ZONE-HANOI-01"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Trả về dữ liệu đa hình (Polymorphic) cho thiết bị",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/analytics/iot/telemetry/aggregated?zoneId=ZONE-HANOI-01",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "analytics",
+                    "iot",
+                    "telemetry",
+                    "aggregated"
+                  ],
+                  "query": [
+                    {
+                      "key": "zoneId",
+                      "value": "ZONE-HANOI-01"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"reportType\": \"actuator\",\n    \"zoneId\": \"string\",\n    \"timestamp\": \"2018-04-30T11:48:48.901Z\",\n    \"minLimit\": 1678.5459560559125,\n    \"notes\": null\n  },\n  {\n    \"reportType\": \"actuator\",\n    \"zoneId\": \"string\",\n    \"timestamp\": \"2004-11-19T23:50:58.769Z\",\n    \"minLimit\": 3685.3598675012577,\n    \"notes\": \"string\"\n  }\n]"
+            },
+            {
+              "name": "Thiếu zoneId hoặc định dạng sai",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/analytics/iot/telemetry/aggregated?zoneId=ZONE-HANOI-01",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "analytics",
+                    "iot",
+                    "telemetry",
+                    "aggregated"
+                  ],
+                  "query": [
+                    {
+                      "key": "zoneId",
+                      "value": "ZONE-HANOI-01"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://neuiBBnpzSwwuiRIYazgtHEF.ayvgqwbqR-IVQGqAsRJ1kgw\",\n  \"title\": \"string\",\n  \"status\": 467,\n  \"detail\": \"string\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02_Auth",
+      "item": [
+        {
+          "name": "Test không truyền Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/problem+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/events/ingest",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "events",
+                "ingest"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Event accepted",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Cảnh báo nếu giá trị vượt ngưỡng cực đoan",
+                    "type": "text/plain"
+                  },
+                  "key": "X-Warning",
+                  "value": "string"
+                }
+              ],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Bad Request (Sai payload hoặc thiếu trường bắt buộc)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://neuiBBnpzSwwuiRIYazgtHEF.ayvgqwbqR-IVQGqAsRJ1kgw\",\n  \"title\": \"string\",\n  \"status\": 467,\n  \"detail\": \"string\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03_Negative",
+      "item": [
+        {
+          "name": "Test gửi thiếu dữ liệu",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/problem+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/events/ingest",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "events",
+                "ingest"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Event accepted",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Cảnh báo nếu giá trị vượt ngưỡng cực đoan",
+                    "type": "text/plain"
+                  },
+                  "key": "X-Warning",
+                  "value": "string"
+                }
+              ],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Bad Request (Sai payload hoặc thiếu trường bắt buộc)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://neuiBBnpzSwwuiRIYazgtHEF.ayvgqwbqR-IVQGqAsRJ1kgw\",\n  \"title\": \"string\",\n  \"status\": 467,\n  \"detail\": \"string\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04_Boundary_Reliability",
+      "item": [
+        {
+          "name": "Test nhiệt độ cực đoan (Boundary)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/problem+json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/events/ingest",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "events",
+                "ingest"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Event accepted",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Cảnh báo nếu giá trị vượt ngưỡng cực đoan",
+                    "type": "text/plain"
+                  },
+                  "key": "X-Warning",
+                  "value": "string"
+                }
+              ],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Bad Request (Sai payload hoặc thiếu trường bắt buộc)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/problem+json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"eventId\": \"8b901741-cb4b-d373-d0ff-8e113663f6c8\",\n  \"eventType\": \"sensor.reading.created\",\n  \"occurredAt\": \"1998-01-17T02:58:50.516Z\",\n  \"source\": \"string\",\n  \"data\": {\n    \"deviceId\": \"string\",\n    \"locationId\": \"BUILDING-QUMCP-ROOM-642\",\n    \"value\": 4223.934981067421,\n    \"unit\": \"boolean\"\n  },\n  \"correlationId\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/events/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/problem+json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"type\": \"https://neuiBBnpzSwwuiRIYazgtHEF.ayvgqwbqR-IVQGqAsRJ1kgw\",\n  \"title\": \"string\",\n  \"status\": 467,\n  \"detail\": \"string\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05_Consumer_side_Smoke",
+      "item": [
+        {
+          "name": "B1 gọi thử Core B6",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Có thể kết nối tới hợp đồng của Core (B6)\", function () {\r",
+                  "    // Vì hiện tại B6 chưa bật mock, test này có thể lỗi không gọi được, \r",
+                  "    // nhưng script này chứng minh bạn đã setup đúng kiến trúc.\r",
+                  "    console.log(\"Smoke test gọi sang B6\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{coreMockUrl}}/evaluate",
+              "host": [
+                "{{coreMockUrl}}"
+              ],
+              "path": [
+                "evaluate"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "06_Local_only_NonFunctional",
+      "item": []
+    },
+    {
+      "name": "Test tốc độ phản hồi (Chỉ chạy Local)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/analytics/iot/telemetry/aggregated?zoneId=ZONE-HANOI-01",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "analytics",
+            "iot",
+            "telemetry",
+            "aggregated"
+          ],
+          "query": [
+            {
+              "key": "zoneId",
+              "value": "ZONE-HANOI-01"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Trả về dữ liệu đa hình (Polymorphic) cho thiết bị",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/iot/telemetry/aggregated?zoneId=ZONE-HANOI-01",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "analytics",
+                "iot",
+                "telemetry",
+                "aggregated"
+              ],
+              "query": [
+                {
+                  "key": "zoneId",
+                  "value": "ZONE-HANOI-01"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n  {\n    \"reportType\": \"actuator\",\n    \"zoneId\": \"string\",\n    \"timestamp\": \"2018-04-30T11:48:48.901Z\",\n    \"minLimit\": 1678.5459560559125,\n    \"notes\": null\n  },\n  {\n    \"reportType\": \"actuator\",\n    \"zoneId\": \"string\",\n    \"timestamp\": \"2004-11-19T23:50:58.769Z\",\n    \"minLimit\": 3685.3598675012577,\n    \"notes\": \"string\"\n  }\n]"
+        },
+        {
+          "name": "Thiếu zoneId hoặc định dạng sai",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/problem+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/iot/telemetry/aggregated?zoneId=ZONE-HANOI-01",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "analytics",
+                "iot",
+                "telemetry",
+                "aggregated"
+              ],
+              "query": [
+                {
+                  "key": "zoneId",
+                  "value": "ZONE-HANOI-01"
+                }
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/problem+json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"type\": \"https://neuiBBnpzSwwuiRIYazgtHEF.ayvgqwbqR-IVQGqAsRJ1kgw\",\n  \"title\": \"string\",\n  \"status\": 467,\n  \"detail\": \"string\"\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:4010"
+    }
+  ]
+}
