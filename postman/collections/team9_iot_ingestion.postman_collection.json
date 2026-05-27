@@ -12,6 +12,27 @@
       "item": [
         {
           "name": "Ingest sensor event (CloudEvents format) Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test 1: Đảm bảo server nhận diện và tạo thành công (201)\r",
+                  "pm.test(\"Status code is 201 Created\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "// Test 2: Đảm bảo thời gian phản hồi nhanh\r",
+                  "pm.test(\"Response time is reasonable\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(1000); // Phản hồi dưới 1 giây\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -35,9 +56,9 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/events/ingest",
+              "raw": "{{iotBaseUrl}}/events/ingest",
               "host": [
-                "{{baseUrl}}"
+                "{{iotBaseUrl}}"
               ],
               "path": [
                 "events",
@@ -154,9 +175,9 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/analytics/iot/telemetry/aggregated?zoneId=ZONE-HANOI-01",
+              "raw": "{{iotBaseUrl}}/analytics/iot/telemetry/aggregated?zoneId=ZONE-HANOI-01",
               "host": [
-                "{{baseUrl}}"
+                "{{iotBaseUrl}}"
               ],
               "path": [
                 "analytics",
@@ -402,6 +423,21 @@
       "item": [
         {
           "name": "Test gửi thiếu dữ liệu",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Thiếu dữ liệu phải báo lỗi 400 Bad Request\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -425,9 +461,9 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/events/ingest",
+              "raw": "{{iotBaseUrl}}/events/ingest",
               "host": [
-                "{{baseUrl}}"
+                "{{iotBaseUrl}}"
               ],
               "path": [
                 "events",
@@ -540,6 +576,23 @@
       "item": [
         {
           "name": "Test nhiệt độ cực đoan (Boundary)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Xử lý giá trị biên (cực đoan)\", function () {\r",
+                  "    // Chấp nhận việc server có thể lưu thành công (201) kèm cảnh báo, \r",
+                  "    // hoặc chặn luôn (400, 422) do vượt quá ngưỡng cho phép của cảm biến.\r",
+                  "    pm.expect([201, 400, 422]).to.include(pm.response.code);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -563,9 +616,9 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/events/ingest",
+              "raw": "{{iotBaseUrl}}/events/ingest",
               "host": [
-                "{{baseUrl}}"
+                "{{iotBaseUrl}}"
               ],
               "path": [
                 "events",
@@ -718,6 +771,26 @@
     },
     {
       "name": "Test tốc độ phản hồi (Chỉ chạy Local)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Postman sẽ kiểm tra xem bạn đang chạy môi trường nào.\r",
+              "if (pm.environment.get(\"env\") === \"local\") {\r",
+              "    pm.test(\"Thời gian phản hồi trên server thật phải cực nhanh (< 500ms)\", function () {\r",
+              "        pm.expect(pm.response.responseTime).to.be.below(500);\r",
+              "    });\r",
+              "} else {\r",
+              "    console.log(\"Đang chạy trên Mock Server, bỏ qua bài test tốc độ.\");\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [
@@ -727,9 +800,9 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/analytics/iot/telemetry/aggregated?zoneId=ZONE-HANOI-01",
+          "raw": "{{iotBaseUrl}}/analytics/iot/telemetry/aggregated?zoneId=ZONE-HANOI-01",
           "host": [
-            "{{baseUrl}}"
+            "{{iotBaseUrl}}"
           ],
           "path": [
             "analytics",

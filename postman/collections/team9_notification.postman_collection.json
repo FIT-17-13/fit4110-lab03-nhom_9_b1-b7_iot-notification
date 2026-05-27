@@ -12,6 +12,21 @@
       "item": [
         {
           "name": "Test nhận cảnh báo thành công",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 202 Accepted\", function () {\r",
+                  "    pm.response.to.have.status(202);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -35,9 +50,9 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/webhooks/alerts",
+              "raw": "{{notifyBaseUrl}}/webhooks/alerts",
               "host": [
-                "{{baseUrl}}"
+                "{{notifyBaseUrl}}"
               ],
               "path": [
                 "webhooks",
@@ -187,6 +202,21 @@
       "item": [
         {
           "name": "Test không truyền Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Không có token phải trả về 401 hoặc 403\", function () {\r",
+                  "    pm.expect([401, 403]).to.include(pm.response.code);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -210,9 +240,9 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/webhooks/alerts",
+              "raw": "{{notifyBaseUrl}}/webhooks/alerts",
               "host": [
-                "{{baseUrl}}"
+                "{{notifyBaseUrl}}"
               ],
               "path": [
                 "webhooks",
@@ -362,6 +392,21 @@
       "item": [
         {
           "name": "Test dữ liệu Alert không hợp lệ",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Thiếu severity phải trả về lỗi 422 Unprocessable Entity\", function () {\r",
+                  "    pm.response.to.have.status(422);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -376,7 +421,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"eventId\": \"b46358cd-f3a9-c202-6987-5b97c627e173\",\n  \"alertId\": \"string\",\n  \"severity\": \"HIGH\",\n  \"message\": \"string\",\n  \"occurredAt\": \"1988-10-30T08:23:31.462Z\"\n}",
+              "raw": "{\n  \"eventId\": \"b46358cd-f3a9-c202-6987-5b97c627e173\",\n  \"alertId\": \"string\",\n  \"message\": \"string\",\n  \"occurredAt\": \"1988-10-30T08:23:31.462Z\"\n}",
               "options": {
                 "raw": {
                   "headerFamily": "json",
@@ -385,9 +430,9 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/webhooks/alerts",
+              "raw": "{{notifyBaseUrl}}/webhooks/alerts",
               "host": [
-                "{{baseUrl}}"
+                "{{notifyBaseUrl}}"
               ],
               "path": [
                 "webhooks",
@@ -537,6 +582,22 @@
       "item": [
         {
           "name": "Test Flood Alert (Cảnh báo ồ ạt)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Hệ thống xử lý tốt khi có Flood Alert\", function () {\r",
+                  "    // Chấp nhận 202 (đưa vào digest/batch) hoặc 429 (chặn vì rate limit)\r",
+                  "    pm.expect([202, 429]).to.include(pm.response.code);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -560,9 +621,9 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/webhooks/alerts",
+              "raw": "{{notifyBaseUrl}}/webhooks/alerts",
               "host": [
-                "{{baseUrl}}"
+                "{{notifyBaseUrl}}"
               ],
               "path": [
                 "webhooks",
@@ -712,6 +773,21 @@
       "item": [
         {
           "name": "B7 gọi thử Core B6 để verify",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Ping dịch vụ Core B6\", function () {\r",
+                  "    console.log(\"Smoke test đảm bảo B7 nhìn thấy B6\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [],
