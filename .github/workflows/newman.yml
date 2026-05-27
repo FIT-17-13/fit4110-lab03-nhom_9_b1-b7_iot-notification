@@ -27,11 +27,19 @@ jobs:
 
       - name: Start Prism mock servers
         run: |
-          nohup npm run mock:iot > prism-iot.log 2>&1 &
-          nohup npm run mock:vision > prism-vision.log 2>&1 &
+          nohup npx prism mock contracts/iot-ingestion.openapi.yaml -p 4010 > prism-iot.log 2>&1 &
+          nohup npx prism mock contracts/notification.openapi.yaml -p 4011 > prism-notify.log 2>&1 &
 
       - name: Wait for mock servers
-        run: npx wait-on http://localhost:4010/health http://localhost:4011/health --timeout 30000
+        # Đổi sang kiểm tra cổng TCP thay vì gọi /health. 
+        # Chỉ cần cổng 4010 và 4011 mở là CI sẽ chạy tiếp ngay lập tức.
+        run: npx wait-on tcp:localhost:4010 tcp:localhost:4011 --timeout 30000
+
+      - name: Run Newman for IoT
+        run: npx newman run postman/collections/team9_iot_ingestion.postman_collection.json -e postman/environments/team9_mock.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export reports/iot-report.html
+
+      - name: Run Newman for Notification
+        run: npx newman run postman/collections/team9_notification.postman_collection.json -e postman/environments/team9_mock.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export reports/notify-report.html
 
       - name: Run Newman contract tests
         run: npm run test:mock
